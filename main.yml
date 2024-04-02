@@ -6,7 +6,7 @@
 
      - name: Set Hostname
        ansible.builtin.hostname:
-          name: "ansible.dmcsf.de"
+          name: "kali"
 
      - name: Update apt repo and cache
        apt: 
@@ -23,10 +23,55 @@
             name: 
                 - python3
                 - python3-pip
-                - sshpass
+                - wget
+                - gpg
+                - apt-transport-https
      
      - name: Install Python libraries
        pip: 
             name: 
                 - ansible
+     
+     - name: Check for vscode
+       command: apt show code
+       register: vscode_present
 
+     - name: Download MS-Keys
+       ansible.builtin.shell: 'wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg'
+       when: vscode_present.rc != 0
+
+     - name: Install MS-Keys
+       ansible.builtin.shell: sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+       when: vscode_present.rc != 0
+
+     - name: Install VScode-Repo
+       ansible.builtin.shell: sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+       when: vscode_present.rc != 0
+
+     - name: Remove temp files
+       ansible.builtin.command: rm -f packages.microsoft.gpg
+       when: vscode_present.rc != 0
+
+     - name: Update apt repo and cache
+       apt: 
+          update_cache: yes
+          cache_valid_time: 3600
+       when: vscode_present.rc != 0
+
+     - name: Install VS-Code
+       apt: 
+            name: 
+                - code
+
+     - name: Git Pull impacket
+       git:
+         repo: https://github.com/fortra/impacket
+         dest: /opt/tools/impacket
+
+     - name: Recursively change ownership of /opt
+       ansible.builtin.file:
+         path: /opt/tools
+         state: directory
+         recurse: yes
+         owner: 1000
+         group: 1000
