@@ -1,0 +1,32 @@
+---
+- name: Ubuntu Setup
+  hosts: localhost
+  become: yes
+  tasks:
+
+     - name: Set Hostname
+       ansible.builtin.hostname:
+          name: "ansible.dmcsf.de"
+
+     - name: Update apt repo and cache
+       apt: 
+          update_cache: yes
+          cache_valid_time: 3600
+
+     - name: Upgrade all apt packages
+       apt: 
+            name: "*"
+            state: latest
+            
+     - name: Check Ansible-Dependencies
+       apt: 
+            name: 
+                - python3
+                - python3-pip
+                - sshpass
+     
+     - name: Install Python libraries
+       pip: 
+            name: 
+                - ansible
+
