@@ -69,6 +69,11 @@
          repo: https://github.com/fortra/impacket
          dest: /opt/tools/impacket
 
+     - name: Git Pull powercat
+       git:
+         repo: https://github.com/besimorhino/powercat
+         dest: /opt/tools/powercat
+
      - name: Recursively change ownership of /opt
        ansible.builtin.file:
          path: /opt/tools
