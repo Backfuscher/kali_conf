@@ -90,6 +90,11 @@
          url: https://github.com/peass-ng/PEASS-ng/releases/latest/download/winPEASany_ofs.exe
          dest: /opt/tools/peas/winpeas.exe
 
+     - name: Download Kerbrute
+       ansible.builtin.get_url:
+         url: https://github.com/ropnop/kerbrute/releases/latest/download/kerbrute_linux_amd64
+         dest: /opt/tools/
+
      - name: Recursively change ownership of /opt
        ansible.builtin.file:
          path: /opt/tools
