@@ -74,6 +74,22 @@
          repo: https://github.com/besimorhino/powercat
          dest: /opt/tools/powercat
 
+     - name: Install ensurepath
+       ansible.builtin.command: 'pipx ensurepath'
+       
+     - name: Install netexec
+       ansible.builtin.command: 'pipx install git+https://github.com/Pennyw0rth/NetExec'
+
+     - name: Download linpeas
+       ansible.builtin.get_url:
+         url: https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh
+         dest: /opt/tools/peas/
+
+     - name: Download winpeas
+       ansible.builtin.get_url:
+         url: https://github.com/peass-ng/PEASS-ng/releases/latest/download/winPEASany_ofs.exe
+         dest: /opt/tools/peas/winpeas.exe
+
      - name: Recursively change ownership of /opt
        ansible.builtin.file:
          path: /opt/tools
@@ -81,9 +97,3 @@
          recurse: yes
          owner: 1000
          group: 1000
-
-     - name: Install ensurepath
-       ansible.builtin.command: 'pipx ensurepath'
-       
-     - name: Install netexec
-       ansible.builtin.command: 'pipx install git+https://github.com/Pennyw0rth/NetExec'
