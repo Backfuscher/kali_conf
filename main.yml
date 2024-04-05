@@ -95,6 +95,16 @@
          url: https://github.com/ropnop/kerbrute/releases/latest/download/kerbrute_linux_amd64
          dest: /opt/tools/
 
+     - name: Download resocks
+       ansible.builtin.get_url:
+         url: https://github.com/RedTeamPentesting/resocks/releases/latest/download/resocks_Linux_x86_64.tar.gz
+         dest: /opt/tools/resocks/
+         
+     - name: Download resocks
+       ansible.builtin.get_url:
+         url: https://github.com/RedTeamPentesting/resocks/releases/download/v0.1.1/resocks_Windows_x86_64.zip
+         dest: /opt/tools/resocks/
+
      - name: Recursively change ownership of /opt
        ansible.builtin.file:
          path: /opt/tools
