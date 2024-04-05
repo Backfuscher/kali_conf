@@ -97,8 +97,8 @@
 
      - name: Create Resocks-Folder
        ansible.builtin.file:
-       path: /opt/tools/chisel
-       state: directory
+         path: /opt/tools/resocks
+         state: directory
 
      - name: Download resocks
        ansible.builtin.get_url:
