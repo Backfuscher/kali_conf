@@ -109,6 +109,11 @@
        ansible.builtin.get_url:
          url: https://github.com/RedTeamPentesting/resocks/releases/latest/download/resocks_Windows_x86_64.zip
          dest: /opt/tools/resocks/
+         
+     - name: Download phpreverseshell
+       ansible.builtin.get_url:
+         url: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
+         dest: /opt/tools/
 
      - name: Recursively change ownership of /opt
        ansible.builtin.file:
