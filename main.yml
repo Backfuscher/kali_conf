@@ -69,6 +69,11 @@
          repo: https://github.com/fortra/impacket
          dest: /opt/tools/impacket
 
+     - name: Git Pull ponyshell
+       git:
+         repo: https://github.com/flozz/p0wny-shell
+         dest: /opt/tools/p0wny-shell
+
      - name: Git Pull powercat
        git:
          repo: https://github.com/besimorhino/powercat
