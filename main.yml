@@ -1,5 +1,5 @@
 ---
-- name: Ubuntu Setup
+- name: Kali Setup
   hosts: localhost
   become: yes
   tasks:
@@ -94,6 +94,11 @@
        ansible.builtin.get_url:
          url: https://github.com/ropnop/kerbrute/releases/latest/download/kerbrute_linux_amd64
          dest: /opt/tools/
+
+     - name: Create Resocks-Folder
+       ansible.builtin.file:
+       path: /opt/tools/chisel
+       state: directory
 
      - name: Download resocks
        ansible.builtin.get_url:
