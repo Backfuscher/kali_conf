@@ -27,6 +27,7 @@
                 - gpg
                 - apt-transport-https
                 - pipx
+                - rustc
      
      - name: Install Python libraries
        pip: 
@@ -84,6 +85,11 @@
        
      - name: Install netexec
        ansible.builtin.command: 'pipx install git+https://github.com/Pennyw0rth/NetExec'
+
+     - name: Creates directory
+       ansible.builtin.file:
+         path: /opt/tools/peas
+         state: directory
 
      - name: Download linpeas
        ansible.builtin.get_url:
