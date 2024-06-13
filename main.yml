@@ -106,6 +106,16 @@
          url: https://github.com/ropnop/kerbrute/releases/latest/download/kerbrute_linux_amd64
          dest: /opt/tools/
 
+     - name: Download volatitilty2
+       git:
+         repo: https://github.com/volatilityfoundation/volatility
+         dest: /opt/tools/volatility
+
+     - name: Download volatitilty3
+       git:
+         repo: https://github.com/volatilityfoundation/volatility3
+         dest: /opt/tools/volatility3
+
      - name: Download volatility plugins
        ansible.builtin.get_url:
          url: https://github.com/superponible/volatility-plugins
@@ -130,6 +140,8 @@
        ansible.builtin.get_url:
          url: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
          dest: /opt/tools/
+
+// TODO: Add .bashrc config
 
      - name: Recursively change ownership of /opt
        ansible.builtin.file:
