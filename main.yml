@@ -22,7 +22,6 @@
        apt: 
             name: 
                 - python2
-                - pyhton2-pip
                 - python3
                 - python3-pip
                 - wget
@@ -36,36 +35,15 @@
             name: 
                 - ansible
      
-     - name: Check for vscode
-       command: apt show code
-       register: vscode_present
+     - name: Install VSCode x86
+       ansible.builtin.apt:
+         deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+       when: ansible_facts.architecture == "x86_64"
 
-     - name: Download MS-Keys
-       ansible.builtin.shell: 'wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg'
-       when: vscode_present.rc != 0
-
-     - name: Install MS-Keys
-       ansible.builtin.shell: sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-       when: vscode_present.rc != 0
-//TODO: If arm remove amd64
-     - name: Install VScode-Repo
-       ansible.builtin.shell: sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-       when: vscode_present.rc != 0
-
-     - name: Remove temp files
-       ansible.builtin.command: rm -f packages.microsoft.gpg
-       when: vscode_present.rc != 0
-
-     - name: Update apt repo and cache
-       apt: 
-          update_cache: yes
-          cache_valid_time: 3600
-       when: vscode_present.rc != 0
-
-     - name: Install VS-Code
-       apt: 
-            name: 
-                - code
+     - name: Install VSCode ARM
+       ansible.builtin.apt:
+         deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64
+       when: ansible_facts.architecture != "x86_64"
 
      - name: Git Pull impacket
        git:
@@ -132,6 +110,13 @@
        ansible.builtin.get_url:
          url: https://github.com/RedTeamPentesting/resocks/releases/latest/download/resocks_Linux_x86_64.tar.gz
          dest: /opt/tools/resocks/
+       when: ansible_facts.architecture == "x86_64"
+
+     - name: Download resocks
+       ansible.builtin.get_url:
+         url: https://github.com/RedTeamPentesting/resocks/releases/download/v0.1.1/resocks_Linux_arm64.tar.gz
+         dest: /opt/tools/resocks/
+       when: ansible_facts.architecture != "x86_64"
          
      - name: Download resocks
        ansible.builtin.get_url:
@@ -142,8 +127,6 @@
        ansible.builtin.get_url:
          url: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
          dest: /opt/tools/
-
-// TODO: Add .bashrc config
 
      - name: Recursively change ownership of /opt
        ansible.builtin.file:
