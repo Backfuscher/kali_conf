@@ -21,6 +21,8 @@
      - name: Check Ansible-Dependencies
        apt: 
             name: 
+                - python2
+                - pyhton2-pip
                 - python3
                 - python3-pip
                 - wget
