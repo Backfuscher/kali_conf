@@ -111,9 +111,9 @@
          dest: /opt/tools/volatility3
 
      - name: Download volatility plugins
-       ansible.builtin.get_url:
+       git:
          url: https://github.com/superponible/volatility-plugins
-         dest: /opt/tools/
+         dest: /opt/tools/volatility-plugins
 
      - name: Create Resocks-Folder
        ansible.builtin.file:
