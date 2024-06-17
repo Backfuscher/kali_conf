@@ -32,6 +32,7 @@
                 - python2-dev
                 - build-essential
                 - yara
+                - gobuster
      
      - name: Install Python libraries
        pip: 
