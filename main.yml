@@ -33,6 +33,7 @@
                 - build-essential
                 - yara
                 - gobuster
+                - seclists
      
      - name: Install Python libraries
        pip: 
