@@ -50,8 +50,11 @@
      - name: Install python2-pip
        ansible.builtin.shell: python2 /tmp/get-pip.py
 
+     - name: Install Python2 setuptools
+       ansible.builtin.shell: python2 -m pip install setuptools
+
      - name: Install Python2 Dependencies
-       ansible.builtin.shell: python2 -m pip install setuptools pycrypto distorm3
+       ansible.builtin.shell: python2 -m pip install pycrypto distorm3
      
      - name: Install VSCode x86
        ansible.builtin.apt:
