@@ -41,6 +41,8 @@
        pip: 
             name: 
                 - ansible
+     - name: Change keyboard layout to de
+       ansible.builtin.shell: setxkbmap -layout de
                 
      - name: Download python2-pip
        ansible.builtin.get_url:
