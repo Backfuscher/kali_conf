@@ -36,6 +36,7 @@
                 - yara
                 - gobuster
                 - seclists
+                - kali-desktop-i3
      
      - name: Install Python libraries
        pip: 
@@ -158,3 +159,11 @@
          recurse: yes
          owner: 1000
          group: 1000
+
+     - name: Copy i3 config-file
+       ansible.builtin.copy:
+         src: ./i3status.conf
+         dest: ~/.config/i3/config
+         uid: 1000
+         gid: 1000
+         mode: '0600'
