@@ -10,7 +10,6 @@
 
      - name: Change keyboard layout to de
        ansible.builtin.shell: dpkg-reconfigure keyboard-configuration
-       become_user: kali
 
      - name: Set Hostname
        ansible.builtin.hostname:
