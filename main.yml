@@ -158,7 +158,7 @@
 
      - name: Recursively change ownership of /home/kali/config/
        ansible.builtin.file:
-         path: /home/kali/.config/i3
+         path: /home/kali/.config/i3status
          state: directory
          recurse: yes
          owner: 1000
@@ -167,7 +167,7 @@
      - name: Copy i3 config-file
        ansible.builtin.copy:
          src: ./i3status.conf
-         dest: /home/kali/.config/i3/config
+         dest: /home/kali/.config/i3status/config
          owner: 1000
          group: 1000
          mode: '0600'
