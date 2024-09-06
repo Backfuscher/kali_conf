@@ -160,6 +160,6 @@
        ansible.builtin.copy:
          src: ./i3status.conf
          dest: ~/.config/i3/config
-         uid: 1000
-         gid: 1000
+         owner: 1000
+         group: 1000
          mode: '0600'
