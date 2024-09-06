@@ -17,7 +17,6 @@
        apt: 
             name: "*"
             state: latest
-            upgrade: yes
             
      - name: Check Ansible-Dependencies
        apt: 
