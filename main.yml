@@ -8,9 +8,6 @@
        ansible.builtin.shell: setxkbmap -layout de
        become_user: kali
 
-     - name: Change keyboard layout to de
-       ansible.builtin.shell: dpkg-reconfigure keyboard-configuration
-
      - name: Set Hostname
        ansible.builtin.hostname:
           name: "kali"
