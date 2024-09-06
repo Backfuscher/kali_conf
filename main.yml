@@ -12,11 +12,7 @@
        apt: 
           update_cache: yes
           cache_valid_time: 3600
-
-     - name: Upgrade all apt packages this can take a long time
-       apt: 
-            name: "*"
-            state: latest
+          upgrade: yes            
             
      - name: Check Ansible-Dependencies
        apt: 
