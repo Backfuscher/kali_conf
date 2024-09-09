@@ -37,6 +37,7 @@
                 - gobuster
                 - seclists
                 - kali-desktop-i3
+                - nextcloud-desktop
      
      - name: Install Python libraries
        pip: 
