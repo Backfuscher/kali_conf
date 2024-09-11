@@ -68,10 +68,8 @@
          deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64
        when: ansible_facts.architecture != "x86_64"
 
-     - name: Git Pull impacket
-       git:
-         repo: https://github.com/fortra/impacket
-         dest: /opt/tools/impacket
+     - name: Install impacket
+       ansible.builtin.command: 'pipx install git+https://github.com/fortra/impacket'
 
      - name: Git Pull ponyshell
        git:
