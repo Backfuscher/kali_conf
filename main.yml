@@ -38,11 +38,6 @@
                 - seclists
                 - kali-desktop-i3
                 - nextcloud-desktop
-     
-     - name: Install Python libraries
-       pip: 
-            name: 
-                - ansible
                 
      - name: Download python2-pip
        ansible.builtin.get_url:
