@@ -138,6 +138,16 @@
        ansible.builtin.get_url:
          url: https://github.com/RedTeamPentesting/resocks/releases/latest/download/resocks_Windows_x86_64.zip
          dest: /opt/tools/resocks/
+
+     - name: Create Chainsaw-Folder
+       ansible.builtin.file:
+         path: /opt/tools/chainsaw
+         state: directory
+
+     - name: Download chainsaw
+       ansible.builtin.get_url:
+         url: https://github.com/WithSecureLabs/chainsaw/releases/latest/download/chainsaw_all_platforms+rules.zip
+         dest: /opt/tools/chainsaw/
          
      - name: Download phpreverseshell
        ansible.builtin.get_url:
