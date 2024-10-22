@@ -5,7 +5,7 @@
   tasks:
 
      - name: Change keyboard layout to de
-       ansible.builtin.shell: setxkbmap -layout de
+       ansible.builtin.shell: sudo dpkg-reconfigure keyboard-configuration
        become_user: kali
 
      - name: Set Hostname
