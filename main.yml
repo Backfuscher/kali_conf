@@ -76,6 +76,16 @@
        git:
          repo: https://github.com/besimorhino/powercat
          dest: /opt/tools/powercat
+         
+     - name: Git Pull pywhisker
+       git:
+         repo: https://github.com/ShutdownRepo/pywhisker
+         dest: /opt/tools/pywhisker
+
+     - name: Git Pull targetedKerberoast
+       git:
+         repo: https://github.com/ShutdownRepo/targetedKerberoast
+         dest: /opt/tools/targetedKerberoast
 
      - name: Install ensurepath
        ansible.builtin.command: 'pipx ensurepath'
