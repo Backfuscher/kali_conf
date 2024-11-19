@@ -183,7 +183,7 @@
          owner: 1000
          group: 1000
 
-     - name: Download phpreverseshell
+     - name: Download bloodhound
        ansible.builtin.get_url:
          url: https://raw.githubusercontent.com/SpecterOps/BloodHound/refs/heads/main/examples/docker-compose/docker-compose.yml
          dest: /opt/tools/bloodhound/docker-compose.yml
