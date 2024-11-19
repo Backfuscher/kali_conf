@@ -138,6 +138,11 @@
          repo: https://github.com/superponible/volatility-plugins
          dest: /opt/tools/volatility-plugins
 
+     - name: Download PKINIT Tools
+       git:
+         repo: https://github.com/dirkjanm/PKINITtools
+         dest: /opt/tools/PKINITtools
+         
      - name: Create Resocks-Folder
        ansible.builtin.file:
          path: /opt/tools/resocks
