@@ -77,6 +77,11 @@
          repo: https://github.com/besimorhino/powercat
          dest: /opt/tools/powercat
          
+     - name: Git Pull bloodhound.py
+       git:
+         repo: https://github.com/dirkjanm/BloodHound.py
+         dest: /opt/tools/BloodHound.py
+         
      - name: Git Pull pywhisker
        git:
          repo: https://github.com/ShutdownRepo/pywhisker
