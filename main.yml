@@ -81,6 +81,11 @@
        git:
          repo: https://github.com/dirkjanm/BloodHound.py
          dest: /opt/tools/BloodHound.py
+
+     - name: Git Pull bloodhound.py
+       git:
+         repo: https://github.com/SpecterOps/BloodHound
+         dest: /opt/tools/BloodHound
          
      - name: Git Pull pywhisker
        git:
