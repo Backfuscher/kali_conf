@@ -39,6 +39,7 @@
                 - kali-desktop-i3
                 - docker.io
                 - docker-compose
+                - bloodyad
                 
      - name: Download python2-pip
        ansible.builtin.get_url:
