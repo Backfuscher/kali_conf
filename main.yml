@@ -12,6 +12,14 @@
        ansible.builtin.hostname:
           name: "kali"
 
+    - name: Ensure APT uses IPv4 by default
+      copy:
+        dest: /etc/apt/apt.conf.d/99force-ipv4
+        content: 'Acquire::ForceIPv4 "true";'
+        owner: root
+        group: root
+        mode: '0644'
+
      - name: Update apt repo and cache
        apt: 
           update_cache: yes
