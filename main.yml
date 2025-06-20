@@ -179,6 +179,11 @@
          url: https://github.com/RedTeamPentesting/resocks/releases/latest/download/resocks_Windows_x86_64.zip
          dest: /opt/tools/resocks/
 
+    - name: Download SharpGPOAbuse 
+       ansible.builtin.get_url:
+         url: https://github.com/byronkg/SharpGPOAbuse/releases/download/1.0/SharpGPOAbuse.exe
+         dest: /opt/tools/
+
      - name: Create Chainsaw-Folder
        ansible.builtin.file:
          path: /opt/tools/chainsaw
