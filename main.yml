@@ -87,7 +87,7 @@
          repo: https://github.com/dirkjanm/BloodHound.py
          dest: /opt/tools/BloodHound.py
 
-     - name: Git Pull bloodhound.py
+     - name: Git Pull BloodHound
        git:
          repo: https://github.com/SpecterOps/BloodHound
          dest: /opt/tools/BloodHound
