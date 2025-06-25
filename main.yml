@@ -12,13 +12,13 @@
        ansible.builtin.hostname:
           name: "kali"
 
-    - name: Ensure APT uses IPv4 by default
-      copy:
-        dest: /etc/apt/apt.conf.d/99force-ipv4
-        content: 'Acquire::ForceIPv4 "true";'
-        owner: root
-        group: root
-        mode: '0644'
+     - name: Ensure APT uses IPv4 by default
+       copy:
+         dest: /etc/apt/apt.conf.d/99force-ipv4
+         content: 'Acquire::ForceIPv4 "true";'
+         owner: root
+         group: root
+         mode: '0644'
 
      - name: Update apt repo and cache
        apt: 
@@ -179,7 +179,7 @@
          url: https://github.com/RedTeamPentesting/resocks/releases/latest/download/resocks_Windows_x86_64.zip
          dest: /opt/tools/resocks/
 
-    - name: Download SharpGPOAbuse 
+     - name: Download SharpGPOAbuse 
        ansible.builtin.get_url:
          url: https://github.com/byronkg/SharpGPOAbuse/releases/download/1.0/SharpGPOAbuse.exe
          dest: /opt/tools/
