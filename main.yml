@@ -77,6 +77,11 @@
          repo: https://github.com/flozz/p0wny-shell
          dest: /opt/tools/p0wny-shell
 
+     - name: Git Pull PowerTools
+       git:
+         repo: https://github.com/PowerShellEmpire/PowerTools
+         dest: /opt/tools/powertools
+
      - name: Git Pull powercat
        git:
          repo: https://github.com/besimorhino/powercat
