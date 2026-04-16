@@ -249,10 +249,15 @@
          url: "{{ ghidramcp_release.json.assets | selectattr('name', 'match', '.*\\.zip$') | map(attribute='browser_download_url') | first }}"
          dest: /opt/tools/GhidraMCP/
 
+     - name: Create GhidraMCP virtual environment
+       ansible.builtin.command:
+         cmd: python3 -m venv /opt/tools/GhidraMCP/venv
+         creates: /opt/tools/GhidraMCP/venv
+
      - name: Install GhidraMCP Python dependencies
        ansible.builtin.pip:
          requirements: /opt/tools/GhidraMCP/requirements.txt
-         executable: pip3
+         virtualenv: /opt/tools/GhidraMCP/venv
 
      - name: Create Claude config directory
        ansible.builtin.file:
@@ -272,7 +277,7 @@
            {
              "mcpServers": {
                "ghidra": {
-                 "command": "python3",
+                 "command": "/opt/tools/GhidraMCP/venv/bin/python3",
                  "args": [
                    "/opt/tools/GhidraMCP/bridge_mcp_ghidra.py",
                    "--ghidra-server",
