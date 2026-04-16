@@ -43,6 +43,8 @@
                 - docker.io
                 - docker-compose
                 - bloodyad
+                - default-jdk
+                - unzip
                 
      - name: Install VSCode x86
        ansible.builtin.apt:
@@ -197,6 +199,88 @@
        ansible.builtin.get_url:
          url: https://raw.githubusercontent.com/SpecterOps/BloodHound/refs/heads/main/examples/docker-compose/docker-compose.yml
          dest: /opt/tools/bloodhound/docker-compose.yml
+
+     - name: Get latest Ghidra release info
+       ansible.builtin.uri:
+         url: https://api.github.com/repos/NationalSecurityAgency/ghidra/releases/latest
+         return_content: yes
+       register: ghidra_release
+
+     - name: Set Ghidra release facts
+       ansible.builtin.set_fact:
+         ghidra_zip_url: "{{ ghidra_release.json.assets | selectattr('name', 'match', '.*PUBLIC.*\\.zip$') | map(attribute='browser_download_url') | first }}"
+         ghidra_zip_name: "{{ ghidra_release.json.assets | selectattr('name', 'match', '.*PUBLIC.*\\.zip$') | map(attribute='name') | first }}"
+
+     - name: Set Ghidra directory name
+       ansible.builtin.set_fact:
+         ghidra_dir: "{{ ghidra_zip_name | regex_replace('_\\d{8}\\.zip$', '') }}"
+
+     - name: Download Ghidra
+       ansible.builtin.get_url:
+         url: "{{ ghidra_zip_url }}"
+         dest: /tmp/ghidra.zip
+
+     - name: Extract Ghidra to /opt/tools
+       ansible.builtin.unarchive:
+         src: /tmp/ghidra.zip
+         dest: /opt/tools/
+         remote_src: yes
+         creates: "/opt/tools/{{ ghidra_dir }}"
+
+     - name: Symlink Ghidra
+       ansible.builtin.file:
+         src: "/opt/tools/{{ ghidra_dir }}"
+         dest: /opt/tools/ghidra
+         state: link
+
+     - name: Git Pull GhidraMCP
+       git:
+         repo: https://github.com/LaurieWired/GhidraMCP
+         dest: /opt/tools/GhidraMCP
+
+     - name: Get latest GhidraMCP release info
+       ansible.builtin.uri:
+         url: https://api.github.com/repos/LaurieWired/GhidraMCP/releases/latest
+         return_content: yes
+       register: ghidramcp_release
+
+     - name: Download GhidraMCP extension
+       ansible.builtin.get_url:
+         url: "{{ ghidramcp_release.json.assets | selectattr('name', 'match', '.*\\.zip$') | map(attribute='browser_download_url') | first }}"
+         dest: /opt/tools/GhidraMCP/
+
+     - name: Install GhidraMCP Python dependencies
+       ansible.builtin.pip:
+         requirements: /opt/tools/GhidraMCP/requirements.txt
+         executable: pip3
+
+     - name: Create Claude config directory
+       ansible.builtin.file:
+         path: /home/kali/.claude
+         state: directory
+         owner: 1000
+         group: 1000
+         mode: '0700'
+
+     - name: Configure GhidraMCP as Claude MCP server
+       ansible.builtin.copy:
+         dest: /home/kali/.claude/.mcp.json
+         owner: 1000
+         group: 1000
+         mode: '0600'
+         content: |
+           {
+             "mcpServers": {
+               "ghidra": {
+                 "command": "python3",
+                 "args": [
+                   "/opt/tools/GhidraMCP/bridge_mcp_ghidra.py",
+                   "--ghidra-server",
+                   "http://127.0.0.1:8080/"
+                 ]
+               }
+             }
+           }
 
      - name: Recursively change ownership of /opt
        ansible.builtin.file:
