@@ -25,7 +25,6 @@
      - name: Check Ansible-Dependencies
        apt: 
             name: 
-                - python2
                 - python3
                 - python3-pip
                 - wget
@@ -45,20 +44,6 @@
                 - docker-compose
                 - bloodyad
                 
-     - name: Download python2-pip
-       ansible.builtin.get_url:
-         url: https://bootstrap.pypa.io/pip/2.7/get-pip.py
-         dest: /tmp/get-pip.py
-
-     - name: Install python2-pip
-       ansible.builtin.shell: python2 /tmp/get-pip.py
-
-     - name: Install Python2 setuptools
-       ansible.builtin.shell: python2 -m pip install setuptools
-
-     - name: Install Python2 Dependencies
-       ansible.builtin.shell: python2 -m pip install pycrypto distorm3
-     
      - name: Install VSCode x86
        ansible.builtin.apt:
          deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
