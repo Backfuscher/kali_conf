@@ -233,6 +233,12 @@
          dest: /opt/tools/ghidra
          state: link
 
+     - name: Symlink Ghidra to PATH
+       ansible.builtin.file:
+         src: /opt/tools/ghidra/ghidraRun
+         dest: /usr/local/bin/ghidra
+         state: link
+
      - name: Git Pull GhidraMCP
        git:
          repo: https://github.com/LaurieWired/GhidraMCP
