@@ -22,9 +22,15 @@
           cache_valid_time: 3600
           upgrade: yes            
             
+     - name: Remove old Python httpx
+       apt:
+            name:
+                - python3-httpx
+            state: absent
+
      - name: Check Ansible-Dependencies
-       apt: 
-            name: 
+       apt:
+            name:
                 - python3
                 - python3-pip
                 - wget
@@ -45,6 +51,7 @@
                 - bloodyad
                 - default-jdk
                 - unzip
+                - httpx-toolkit
                 
      - name: Install VSCode x86
        ansible.builtin.apt:
