@@ -52,6 +52,8 @@
                 - default-jdk
                 - unzip
                 - httpx-toolkit
+                - nodejs
+                - npm
                 
      - name: Install VSCode x86
        ansible.builtin.apt:
@@ -272,6 +274,11 @@
          requirements: /opt/tools/GhidraMCP/requirements.txt
          virtualenv: /opt/tools/GhidraMCP/venv
 
+     - name: Git Pull caido skills
+       git:
+         repo: https://github.com/caido/skills
+         dest: /opt/tools/caido-skills
+
      - name: Create Claude config directory
        ansible.builtin.file:
          path: /home/kali/.claude
@@ -279,6 +286,22 @@
          owner: 1000
          group: 1000
          mode: '0700'
+
+     - name: Create Claude skills directory
+       ansible.builtin.file:
+         path: /home/kali/.claude/skills
+         state: directory
+         owner: 1000
+         group: 1000
+         mode: '0700'
+
+     - name: Symlink caido-mode skill
+       ansible.builtin.file:
+         src: /opt/tools/caido-skills/skills/caido-mode
+         dest: /home/kali/.claude/skills/caido-mode
+         state: link
+         owner: 1000
+         group: 1000
 
      - name: Configure GhidraMCP as Claude MCP server
        ansible.builtin.copy:
@@ -299,6 +322,28 @@
                }
              }
            }
+
+     - name: Install caido-mode skill dependencies
+       ansible.builtin.command:
+         cmd: npm install
+         chdir: /home/kali/.claude/skills/caido-mode
+         creates: /home/kali/.claude/skills/caido-mode/node_modules
+       become_user: kali
+
+     - name: Create shodan_recon directory
+       ansible.builtin.file:
+         path: /opt/tools/shodan_recon
+         state: directory
+
+     - name: Create shodan_recon virtual environment
+       ansible.builtin.command:
+         cmd: python3 -m venv /opt/tools/shodan_recon/.venv
+         creates: /opt/tools/shodan_recon/.venv
+
+     - name: Install shodan in shodan_recon venv
+       ansible.builtin.pip:
+         name: shodan
+         virtualenv: /opt/tools/shodan_recon/.venv
 
      - name: Recursively change ownership of /opt
        ansible.builtin.file:
