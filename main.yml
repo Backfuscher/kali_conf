@@ -52,8 +52,6 @@
                 - default-jdk
                 - unzip
                 - httpx-toolkit
-                - nodejs
-                - npm
                 
      - name: Install VSCode x86
        ansible.builtin.apt:
@@ -323,11 +321,25 @@
              }
            }
 
+     - name: Install nvm
+       ansible.builtin.shell:
+         cmd: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+         creates: /home/kali/.nvm/nvm.sh
+       become_user: kali
+
+     - name: Install Node.js 24 via nvm
+       ansible.builtin.shell:
+         cmd: . "$HOME/.nvm/nvm.sh" && nvm install 24
+         creates: /home/kali/.nvm/versions/node/v24*
+         executable: /bin/bash
+       become_user: kali
+
      - name: Install caido-mode skill dependencies
-       ansible.builtin.command:
-         cmd: npm install
+       ansible.builtin.shell:
+         cmd: . "$HOME/.nvm/nvm.sh" && nvm use 24 && npm install
          chdir: /home/kali/.claude/skills/caido-mode
          creates: /home/kali/.claude/skills/caido-mode/node_modules
+         executable: /bin/bash
        become_user: kali
 
      - name: Create shodan_recon directory
