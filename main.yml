@@ -298,6 +298,7 @@
          src: /opt/tools/caido-skills/skills/caido-mode
          dest: /home/kali/.claude/skills/caido-mode
          state: link
+         force: yes
          owner: 1000
          group: 1000
 
