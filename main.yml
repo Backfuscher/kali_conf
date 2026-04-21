@@ -293,14 +293,19 @@
          group: 1000
          mode: '0700'
 
+     - name: Check if caido-mode skill path exists
+       ansible.builtin.stat:
+         path: /home/kali/.claude/skills/caido-mode
+       register: caido_mode_path
+
      - name: Symlink caido-mode skill
        ansible.builtin.file:
          src: /opt/tools/caido-skills/skills/caido-mode
          dest: /home/kali/.claude/skills/caido-mode
          state: link
-         force: yes
          owner: 1000
          group: 1000
+       when: not caido_mode_path.stat.exists
 
      - name: Configure GhidraMCP as Claude MCP server
        ansible.builtin.copy:
